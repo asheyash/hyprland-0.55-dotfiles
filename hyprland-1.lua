@@ -34,6 +34,18 @@ hl.window_rule({
     opacity = 0.75
 })
 
+--workspace for 2 monitors--
+hl.workspace_rule({
+    workspace = "name:main",
+    monitor = "DP-2",
+    default = true
+})
+
+hl.workspace_rule({
+    workspace = "name:secondary",
+    monitor = "HDMI-A-1",
+    default = true
+})
 
 ----------------
 --startup apps--
@@ -48,24 +60,34 @@ end)
 --functions--
 -------------
 
+
+
+--this will be left commented out until a solution to resize the window is found--
 --function to drag a window like in a DE--
-local function drag_n_drop()
-    local cursor = hl.get_cursor_pos()
-    local win = hl.get_active_window()
-    local margin = 5
+--local function drag_n_drop()
+    --local cursor = hl.get_cursor_pos()
+    --local window = hl.get_active_window()
+    --local margin = 7
 
-    if not cursor or not win then return false end
+    --if not cursor or not window then return false end
 
-    local top = win.at.y
-    local on_top = cursor.y >= (top - margin) and cursor.y <= (top + margin)
+    --local top = window.at.y
+    --local on_top = cursor.y >= (top - margin) and cursor.y <= (top + margin)
 
-    if on_top then
-        hl.dispatch(hl.dsp.window.float({ float = true, {window}}))
+    --if on_top then
+        --hl.dispatch(hl.dsp.window.float({ float = true, {window}}))
         --hl.dispatch(hl.dsp.window.resizetotal({{x = 600, y = 400}, {window}}))
         --need to add line to make window smaller once it is floating
-        hl.dispatch(hl.dsp.window.drag({window}))
-    end
-end
+        --hl.dispatch(hl.dsp.window.drag({window}))
+
+        --hl.dispatch(hl.dsp.window.resize({
+            --"monitor_w * 0.5",
+            --"monitor_h * 0.5",
+            --false,
+            --{ window }
+        --}))
+    --end
+--end
 
 
 
@@ -78,7 +100,7 @@ end
 --draging--
 hl.config({
     binds = {
-        drag_threshold = 10
+        drag_threshold = 7
     }
 })
 
@@ -112,10 +134,28 @@ hl.bind("SUPER + SHIFT + escape", hl.dsp.window.kill({window}))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({maximized, toggle, window}))
 
 --minimise window--
-hl.bind("SUPER + mouse:273", hl.dsp.window.move({workspace = "special", follow = False}))
+hl.bind("SUPER + mouse:273", hl.dsp.window.move({workspace = "special:minimise", follow = false}))
+--turn off follow and just toggle it?? quicker?? more like better?
+
+--temp--
+--toggle minimised windows-
+hl.bind("SUPER + minus", hl.dsp.workspace.toggle_special("minimise"))
+
 
 --make window floating and drag--
-hl.bind("mouse:272", drag_n_drop)
+--hl.bind("mouse:272", drag_n_drop)
+
+--move window up--
+hl.bind("SUPER + SHIFT + up", hl.dsp.window.swap({direction = "up"}))
+
+--move window down--
+hl.bind("SUPER + SHIFT + down", hl.dsp.window.swap({direction = "down"}))
+
+--move window right--
+hl.bind("SUPER + SHIFT + right", hl.dsp.window.swap({direction = "right"}))
+
+--move window left--
+hl.bind("SUPER + SHIFT + left", hl.dsp.window.swap({direction = "left"}))
 
 
 ----------------
