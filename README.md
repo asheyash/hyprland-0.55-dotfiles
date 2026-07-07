@@ -6,3 +6,7 @@ includes draggable windows without mod key
 # Upcoming-
 music player overlay notification 
 more binds for window control from the keyboard
+
+# help
+any help would be appriciated if you spot errors 
+or see a more efficent route
